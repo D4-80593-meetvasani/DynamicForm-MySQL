@@ -1,0 +1,7 @@
+{
+    "server": "localhost",
+    "db": "wpt",
+    "user" : "root",
+    "pwd": "manager",
+    "PORT": 3000
+}
