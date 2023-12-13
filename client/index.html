@@ -11,7 +11,7 @@
   </head>
 
   <body class="bg-dark text-light" onload="getData()">
-    <div class="text-warning text-center mt-3" id="alert"></div>
+    <div id="alert"></div>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8 col-12">
@@ -125,15 +125,12 @@
         refToPhoneNumber.value === "" ||
         refToEmail.value === ""
       ) {
-        document.getElementById("alert").innerText =
-          "All the fields are required !";
+        setMessage("All the fields are required !")
         return;
       }
 
       if (isNaN(refToAge.value) || parseFloat(refToAge.value) <= 0) {
-        document.getElementById("alert").innerText =
-          "Please enter a valid age !";
-
+        setMessage("Please enter a valid age !")
         return;
       }
 
@@ -141,15 +138,13 @@
         isNaN(refToPhoneNumber.value) ||
         refToPhoneNumber.value.length != 10
       ) {
-        document.getElementById("alert").innerText =
-          "Please enter a valid Phone Number !";
+          setMessage("Please enter a valid Phone Number !")
         return;
       }
 
       var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailPattern.test(refToEmail.value)) {
-        document.getElementById("alert").innerText =
-          "Please enter a valid Email address !";
+          setMessage("Please enter a valid Email address !")
         return;
       }
 
@@ -176,12 +171,10 @@
         if (helper.readyState == 4 && helper.status == 200) {
           var response = JSON.parse(helper.responseText);
           if (response.affectedRows != undefined && response.affectedRows > 0) {
-            document.getElementById("alert").innerText =
-              "Data added successfully!";
+              setMessage("Data added successfully!")
             getData();
           } else {
-            document.getElementById("alert").innerText =
-              "Something went wrong!";
+              setMessage("Something went wrong!")
           }
         }
       };
@@ -219,28 +212,24 @@
                   response.affectedRows != undefined &&
                   response.affectedRows > 0
                 ) {
-                  document.getElementById("alert").innerText =
-                    "Data deleted successfully!";
+                    setMessage("Data deleted successfully!")
                   getData();
                 } else {
-                  document.getElementById("alert").innerText =
-                    "Something Went Wrong!";
+                    setMessage("Something Went Wrong!")
                 }
               }
             };
             helper.open("DELETE", url + "/" + refToEmail);
             helper.send();
             // myBody.deleteRow(i);
-            document.getElementById("alert").innerText =
-              "Data deleted successfully!";
+              setMessage("Data deleted successfully!")
             return;
           } else {
-            document.getElementById("alert").innerText =
-              "select atleast one row to delete !";
+              setMessage("select atleast one row to delete !")
           }
         }
       } else {
-        document.getElementById("alert").innerText = "No rows to delete !";
+        setMessage("No rows to delete !")
       }
     }
 
@@ -266,8 +255,7 @@
 
       if (!/^[a-zA-Z\s-,'.]+$/.test(keyPressed)) {
         event.preventDefault();
-        document.getElementById("alert").innerText =
-          "Numbers are not allowed !  ";
+          setMessage("Numbers are not allowed !  ")
       } else {
         document.getElementById("alert").innerText = "";
       }
@@ -275,8 +263,7 @@
 
     function update() {
       if (editedRow === null) {
-        document.getElementById("alert").innerText =
-          "Select atleast one row to update !";
+          setMessage("Select atleast one row to update !")
         return;
       }
 
@@ -291,13 +278,12 @@
         refToPhoneNumber.value === "" ||
         refToEmail.value === ""
       ) {
-        document.getElementById("alert").innerText = "All fields are required!";
+        setMessage("All fields are required!")
         return;
       }
 
       if (isNaN(refToAge.value) || parseFloat(refToAge.value) <= 0) {
-        document.getElementById("alert").innerText =
-          "Please enter a valid age!";
+          setMessage("Please enter a valid age!")
         return;
       }
 
@@ -305,15 +291,13 @@
         isNaN(refToPhoneNumber.value) ||
         refToPhoneNumber.value.length != 10
       ) {
-        document.getElementById("alert").innerText =
-          "Please enter a valid Phone Number!";
+          setMessage("Please enter a valid Phone Number!")
         return;
       }
 
       var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailPattern.test(refToEmail.value)) {
-        document.getElementById("alert").innerText =
-          "Please enter a valid Email address!";
+          setMessage("Please enter a valid Email address!")
         return;
       }
 
@@ -332,12 +316,10 @@
         if (helper.readyState == 4 && helper.status == 200) {
           var response = JSON.parse(helper.responseText);
           if (response.affectedRows != undefined && response.affectedRows > 0) {
-            document.getElementById("alert").innerText =
-              "Data updated successfully!";
+              setMessage("Data updated successfully!")
             getData();
           } else {
-            document.getElementById("alert").innerText =
-              "Something went wrong!";
+              setMessage("Something went wrong!")
           }
         }
       };
@@ -351,8 +333,7 @@
       // editedRow.cells[3].textContent = refToPhoneNumber.value;
       // editedRow.cells[4].textContent = refToEmail.value;
 
-      document.getElementById("alert").innerText = "Data updated successfully!";
-
+      setMessage("Data updated successfully!")
       refToName.value = "";
       refToAge.value = "";
       refToPhoneNumber.value = "";
@@ -396,5 +377,15 @@
       helper.open("GET", url);
       helper.send();
     }
+
+    function setMessage(message) {
+        var refTodivMessage = document.getElementById("alert");
+        refTodivMessage.innerHTML = `    
+        <div class="text-success text-center mt-3 p-1 alert alert-success">${message}</div>`;
+        // refTodivMessage.innerText = message;
+        setTimeout(() => {
+          refTodivMessage.innerText = "";
+        }, 3000);
+      }
   </script>
 </html>
