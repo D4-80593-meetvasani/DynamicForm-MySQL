@@ -40,7 +40,7 @@ app.post("/", (request, response) => {
   var Number = request.body.Number;
   var Email = request.body.Email;
 
-  var statement = `insert into form values('${Name}', '${Age}','${Number}','${Email}')`;
+  var statement = `insert into form (name, age, no, email) values('${Name}', '${Age}','${Number}','${Email}')`;
 
   console.log(statement);
 
@@ -59,15 +59,16 @@ app.post("/", (request, response) => {
   });
 });
 
-app.put("/:Email", (request, response) => {
+app.put("/:id", (request, response) => {
   var connection = mysql.createConnection(connectionDetails);
 
+  var Id = request.params.id;
   var Name = request.body.Name;
   var Age = request.body.Age;
   var Number = request.body.Number;
   var Email = request.body.Email;
 
-  var statement = `update form set name = '${Name}', age='${Age}', no ='${Number}', email = '${Email}' where email = '${Email}'`;
+  var statement = `update form set name = '${Name}', age='${Age}', no ='${Number}', email = '${Email}' where id = '${Id}'`;
 
   console.log(statement);
 
@@ -86,13 +87,13 @@ app.put("/:Email", (request, response) => {
   });
 });
 
-app.delete("/:Email", (request, response) => {
+app.delete("/:id", (request, response) => {
   var connection = mysql.createConnection(connectionDetails);
 
-  var Email = request.params.Email;
-  console.log(Email);
+  var Id = request.params.id;
+  console.log(Id);
 
-  var statement = `delete from form where email = '${Email}'`;
+  var statement = `delete from form where id = '${Id}'`;
 
   console.log(statement);
 

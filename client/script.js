@@ -86,7 +86,8 @@ function del() {
     for (var i = rows - 1; i >= 0; i--) {
       var isChecked = myBody.rows[i].cells[0].children[0].checked;
       if (isChecked) {
-        var refToEmail = myBody.rows[i].cells[4].textContent;
+        // var refToEmail = myBody.rows[i].cells[4].textContent;
+        var refToId = employeeIds[i];
         var helper = new XMLHttpRequest();
         helper.onreadystatechange = () => {
           if (helper.readyState == 4 && helper.status == 200) {
@@ -102,7 +103,7 @@ function del() {
             }
           }
         };
-        helper.open("DELETE", url + "/" + refToEmail);
+        helper.open("DELETE", url + "/" + refToId);
         helper.send();
         // myBody.deleteRow(i);
         setMessage("Data deleted successfully!");
@@ -120,6 +121,7 @@ let editedRow = null;
 
 function editRow(button) {
   editedRow = button.closest("tr");
+  // editedRow = myBody.rows[index];
 
   const cells = editedRow.cells;
   // console.log(cells[1].innerText);
@@ -154,6 +156,9 @@ function update() {
   var refToAge = document.getElementById("age");
   var refToPhoneNumber = document.getElementById("pno");
   var refToEmail = document.getElementById("email");
+  
+  var refToId = employeeIds[editedRow.rowIndex - 1]; // Adjust index since rowIndex is 1-based
+
 
   if (
     refToName.value === "" ||
@@ -203,7 +208,7 @@ function update() {
       }
     }
   };
-  helper.open("PUT", url + "/" + refToEmail.value);
+  helper.open("PUT", url + "/" + refToId);
 
   helper.setRequestHeader("Content-Type", "application/json");
   helper.send(JSON.stringify(emp));
@@ -227,6 +232,7 @@ function update() {
 // ----------------------------------database integration-----------------
 
 var latestEmpsData = [];
+var employeeIds = []; 
 var url = "http://127.0.0.1:3000/emps";
 
 function getData() {
@@ -242,6 +248,7 @@ function getData() {
       refToTBody.innerHTML = "";
 
       for (i = 0; i < emps.length; i++) {
+        employeeIds.push(emps[i].id); // Store the employee ID
         var row = `<tr>
                           <td><input class="form-check-input" type="checkbox" ></td>
                           <td>${emps[i].name}</td>
