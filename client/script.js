@@ -243,6 +243,8 @@ function getData() {
       var emps = JSON.parse(helper.responseText);
 
       latestEmpsData = emps;
+      employeeIds = []; 
+
 
       var refToTBody = document.getElementById("myBody");
       refToTBody.innerHTML = "";
